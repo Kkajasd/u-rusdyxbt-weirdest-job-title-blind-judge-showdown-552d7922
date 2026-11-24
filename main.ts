@@ -6,7 +6,16 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const TITLE = "Professional Bubble Wrap Popper";
 
 // The gate: UTF-8 text of 1-60 characters, not only whitespace.
-if (TITLE.length < 1 || TITLE.length > 60 || !TITLE.trim()) {
+// The title is a fixed literal chosen for determinism: no randomness,
+// no environment input, so every run writes the same bytes. It must
+// also be a single line with no trailing newline.
+if (
+  TITLE.length < 1 ||
+  TITLE.length > 60 ||
+  !TITLE.trim() ||
+  TITLE.includes("\n") ||
+  TITLE.includes("\r")
+) {
   throw new Error(`entry title invalid: ${TITLE.length} chars`);
 }
 
